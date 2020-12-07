@@ -55,7 +55,6 @@ public class Main {
                 //Sundsvall:
                 "svl1.ntp.se", "svl2.ntp.se"};
         int currentServer = 0;
-        boolean isException = false;
 
        do{
         try {
@@ -67,8 +66,8 @@ public class Main {
             SNTPMessage  message = new SNTPMessage();
             byte [] buf = message.toByteArray();
             DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 123);
-            isException = false;
             System.out.println("Conncection succesfull with: " + ntpArray[currentServer]);
+            currentServer = 0;
             socket.send(packet);
             System.out.println("Sent request");
             socket.receive(packet);
@@ -79,14 +78,14 @@ public class Main {
 
             //TODO räkna ut offseten mellan datorns klocka och tidsservern, se RFC
             response.offsetTime();
-
+            response.toString();
         } catch (IOException e) {
-            isException = true;
             System.err.println(ntpArray[currentServer]+ " could not connect");
             currentServer++;
             //e.printStackTrace();
         }}
-       while(isException);
+       while(currentServer!= 0);
+
 
 
 

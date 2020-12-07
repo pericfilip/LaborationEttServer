@@ -182,15 +182,25 @@ public class SNTPMessage {
 
     public String toString(){
         //TODO implementera metoden toString i SNTPMessage så att vi kan skriva ut vårt meddelande
-        //LI: 0
-        //Verions: 4
-        //referenceIdentifier: PPS
-        //..
+        System.out.println("LI: " + leapIndicator);
+        System.out.println("Versions: " + versionNumber);
+        System.out.println("Mode: " + mode);
+        System.out.println("Stratum: " + stratum);
+        System.out.println("Poll: " +pollInterval);
+        System.out.println("Precision: " + precision);
+
+        System.out.println("Root delay: " + rootDelay);
+        System.out.println("Root dispersion: " + rootDispersion);
+        System.out.println("ReferenceIdentifier: "+ (char) referenceIdentifier[0] + (char) referenceIdentifier[1]+ (char) referenceIdentifier[2]+ (char) referenceIdentifier[3]);
+        System.out.println("ReferenceTimestamp: " + referenceTimestamp);
+        System.out.println("OriginateTimestamp: " + originateTimestamp);
+        System.out.println("RecieveTimestamp: " + receiveTimestamp);
+        System.out.println("TransmitTimestamp: " + transmitTimestamp);
         return "";
     }
 
     public void offsetTime() {
-        System.out.println("milliseconds passed between message sent from client until reply received from server: \n" +(receiveTimestamp-originateTimestamp) + (transmitTimestamp-destinationTimestamp)/2);
+        System.out.println("Seconds passed between message sent from client until reply received from server: \n" +((receiveTimestamp-originateTimestamp) + (transmitTimestamp-destinationTimestamp)/2));
     }
 }
 
