@@ -190,7 +190,7 @@ public class SNTPMessage {
     }
 
     public void offsetTime() {
-        System.out.println("Seconds passed between message sent from client until reply received from server: \n" +(receiveTimestamp-originateTimestamp) + (transmitTimestamp-destinationTimestamp)/2);
+        System.out.println("milliseconds passed between message sent from client until reply received from server: \n" +(receiveTimestamp-originateTimestamp) + (transmitTimestamp-destinationTimestamp)/2);
     }
 }
 
