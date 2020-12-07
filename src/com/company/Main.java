@@ -56,35 +56,35 @@ public class Main {
                 "svl1.ntp.se", "svl2.ntp.se"};
         int currentServer = 0;
 
-       do{
-        try {
-            //TODO utöka koden så att den försöker ansluta till en annan server om anslutningen misslyckas
+        do{
+            try {
+                //TODO utöka koden så att den försöker ansluta till en annan server om anslutningen misslyckas
 
 
-            DatagramSocket socket = new DatagramSocket();
-            InetAddress address = InetAddress.getByName(ntpArray[currentServer]);
-            SNTPMessage  message = new SNTPMessage();
-            byte [] buf = message.toByteArray();
-            DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 123);
-            System.out.println("Conncection succesfull with: " + ntpArray[currentServer]);
-            currentServer = 0;
-            socket.send(packet);
-            System.out.println("Sent request");
-            socket.receive(packet);
-            SNTPMessage response = new SNTPMessage(packet.getData());
-            System.out.println("Got reply");
-            socket.close();
-            System.out.println();
+                DatagramSocket socket = new DatagramSocket();
+                InetAddress address = InetAddress.getByName(ntpArray[currentServer]);
+                SNTPMessage  message = new SNTPMessage();
+                byte [] buf = message.toByteArray();
+                DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 123);
+                System.out.println("Conncection succesfull with: " + ntpArray[currentServer]);
+                currentServer = 0;
+                socket.send(packet);
+                System.out.println("Sent request");
+                socket.receive(packet);
+                SNTPMessage response = new SNTPMessage(packet.getData());
+                System.out.println("Got reply");
+                socket.close();
+                System.out.println();
 
-            //TODO räkna ut offseten mellan datorns klocka och tidsservern, se RFC
-            response.offsetTime();
-            response.toString();
-        } catch (IOException e) {
-            System.err.println(ntpArray[currentServer]+ " could not connect");
-            currentServer++;
-            //e.printStackTrace();
-        }}
-       while(currentServer!= 0);
+                //TODO räkna ut offseten mellan datorns klocka och tidsservern, se RFC
+                response.offsetTime();
+                response.toString();
+            } catch (IOException e) {
+                System.err.println(ntpArray[currentServer]+ " could not connect");
+                currentServer++;
+                //e.printStackTrace();
+            }}
+        while(currentServer!= 0);
 
 
 
