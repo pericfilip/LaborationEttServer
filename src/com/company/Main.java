@@ -42,28 +42,33 @@ import java.net.*;
 
 public class Main {
 
+
+
     public static void main(String[] args) {
+        String ntpArray[] = {
+                //Malmö:
+                "mmo1.ntp.se", "mmo2.ntp.se",
+                //Göteborg:
+                "gbg1.ntp.se", "gbg2.ntp.se",
+                //Stockholm:
+                "sth1.ntp.se", "sth2.ntp.se",
+                //Sundsvall:
+                "svl1.ntp.se", "svl2.ntp.se"};
+        int currentServer = 0;
+        boolean isException = false;
+
+       do{
         try {
             //TODO utöka koden så att den försöker ansluta till en annan server om anslutningen misslyckas
-            //Göteborg:
-            //gbg1.ntp.se
-            //gbg2.ntp.se
-            //Malmö:
-            //mmo1.ntp.se
-            //mmo2.ntp.se
-            //Stockholm:
-            //sth1.ntp.se
-            //sth2.ntp.se
-            //Sundsvall:
-            //svl1.ntp.se
-            //svl2.ntp.se
+
 
             DatagramSocket socket = new DatagramSocket();
-            InetAddress address = InetAddress.getByName("gbg1.ntp.se");
+            InetAddress address = InetAddress.getByName(ntpArray[currentServer]);
             SNTPMessage  message = new SNTPMessage();
             byte [] buf = message.toByteArray();
             DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 123);
-
+            isException = false;
+            System.out.println("Conncection succesfull with: " + ntpArray[currentServer]);
             socket.send(packet);
             System.out.println("Sent request");
             socket.receive(packet);
@@ -73,11 +78,17 @@ public class Main {
             System.out.println();
 
             //TODO räkna ut offseten mellan datorns klocka och tidsservern, se RFC
-
+            response.offsetTime();
 
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            isException = true;
+            System.err.println(ntpArray[currentServer]+ " could not connect");
+            currentServer++;
+            //e.printStackTrace();
+        }}
+       while(isException);
+
+
 
 //Nedan är ett exempel på ett meddelande från en time server
 /*        byte [] buf = {  36,  1,  0, -25,

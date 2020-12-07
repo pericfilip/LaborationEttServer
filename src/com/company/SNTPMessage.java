@@ -27,9 +27,11 @@ public class SNTPMessage {
     private double originateTimestamp = 0;
     private double receiveTimestamp = 0;
     private double transmitTimestamp = 0;
+    private double destinationTimestamp = 0;
 
 
     public SNTPMessage(byte[] buf) {
+        destinationTimestamp = (System.currentTimeMillis() / 1000.0) + 2208988800.0;
         byte b = buf[0];
         // b = 36
         //  0 1  2 3 4 5 6 7
@@ -96,6 +98,7 @@ public class SNTPMessage {
         originateTimestamp = byteArrayToDouble(buf, 24);
         receiveTimestamp = byteArrayToDouble(buf, 32);
         transmitTimestamp = byteArrayToDouble(buf, 40);
+
 
     }
 
@@ -184,6 +187,10 @@ public class SNTPMessage {
         //referenceIdentifier: PPS
         //..
         return "";
+    }
+
+    public void offsetTime() {
+        System.out.println("Seconds passed between message sent from client until reply received from server: \n" +(receiveTimestamp-originateTimestamp) + (transmitTimestamp-destinationTimestamp)/2);
     }
 }
 
